@@ -62,3 +62,25 @@ Beklenen:
 - `ayar.js` içindeki `changeme` yer tutucu olduğu için raporlanmaz.
 - Çıkış kodu `1` olur (`echo $?` ile görülebilir).
 - `deneme/.env` silinip tekrar çalıştırılınca "✅ Sızmış sır bulunamadı." yazar.
+
+
+### 2) GitHub Action: PR'da sır varsa hattı durdurma
+
+Depo, kendi action'ını kendi üzerinde kullanıyor (`.github/workflows/sir-taramasi.yml`). Denemek için:
+
+1. Yeni bir dal açıp içine sahte bir sır içeren dosya ekle ve PR aç.
+2. PR'daki **Sır Taraması** kontrolü ❌ kırmızıya döner. Merge öncesinde sorun görünür olur.
+3. PR'ın **Files changed** sekmesinde sırrın bulunduğu satırın altında kırmızı bir **Sır Avcısı** uyarısı çıkar.
+4. Actions çalıştırmasının **Summary** sayfasında dosya, satır ve türü gösteren bir tablo oluşur.
+5. Sahte sırrı silip tekrar push edince kontrol ✅ yeşile döner.
+
+Örnek deneme PR'ının bağlantısı panodaki 2 numaralı kartta yer alıyor.
+
+**Başka bir projede kullanmak** için o projenin workflow dosyasına şu adımı eklemek yeterli:
+
+```yaml
+- uses: actions/checkout@v4
+- uses: melikeranasunger/sir-avcisi@main
+  with:
+    yol: .   # isteğe bağlı
+```

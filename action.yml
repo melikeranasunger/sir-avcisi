@@ -1,0 +1,15 @@
+name: 'Sır Avcısı'
+description: 'Koddaki sızmış şifre, token ve API anahtarlarını bulur; bulursa adımı başarısız yapar.'
+branding:
+  icon: 'shield'
+  color: 'red'
+inputs:
+  yol:
+    description: 'Taranacak klasör'
+    required: false
+    default: '.'
+runs:
+  using: 'composite'
+  steps:
+    - run: node "${{ github.action_path }}/bin/sir-avcisi.js" "${{ inputs.yol }}"
+      shell: bash

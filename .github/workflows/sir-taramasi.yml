@@ -1,0 +1,14 @@
+name: Sır Taraması
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tara:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # kendi action'ımızı bu depodan kullanıyoruz
+      - uses: ./

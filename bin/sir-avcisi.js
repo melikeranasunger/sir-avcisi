@@ -2,6 +2,7 @@
 const path = require('path');
 const fs = require('fs');
 const { klasoruTara } = require('../src/tarayici');
+const { githubaRaporla } = require('../src/github');
 
 const arg = process.argv[2] || '.';
 
@@ -16,7 +17,8 @@ if (!fs.existsSync(kok) || !fs.statSync(kok).isDirectory()) {
   process.exit(2);
 }
 
-const { dosyaSayisi, bulgular } = klasoruTara(kok);
+const sonuc = klasoruTara(kok);
+const { dosyaSayisi, bulgular } = sonuc;
 
 console.log(`🔍 Sır Avcısı: ${dosyaSayisi} dosya tarandı`);
 
@@ -30,5 +32,8 @@ if (!bulgular.length) {
   }
   console.log('\nYanlış alarm ise satırın sonuna "sir-avcisi:yoksay" yaz ya da yolu .sirignore dosyasına ekle.');
 }
+
+// Actions içinde çalışıyorsak PR'a da işaretle
+if (process.env.GITHUB_ACTIONS === 'true') githubaRaporla(sonuc);
 
 process.exit(bulgular.length ? 1 : 0);
